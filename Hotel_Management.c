@@ -65,101 +65,6 @@ void admin()
         system("cls");
     }
 }
-int view()
-{
-    return 0;
-}
-
-int edit()
-{
-    return 0;
-}
-int delete()
-{
-    return 0;
-}
-void book()
-{
-    system("cls");
-    printf("\n\n\t\t\t****************************************\n");
-    printf("\t\t\t* WELCOME TO ADD CUSTOMER DETAILS MENU *");
-    printf("\n\t\t\t****************************************\n\n");
-
-    struct customer_info guest;
-    char enter='Y';
-    int exist;
-
-    FILE *fp;
-    fp=fopen("book.txt","a+");
-    if(fp==NULL)
-    {
-        fp=fopen("book.txt","w+");
-        if(fp==NULL)
-        {
-            printf("[SYSTEM ERROR -_-]");
-            printf("\nEnter any KEY to exit");
-            getch();
-            return;
-        }
-        fclose(fp);
-    }
-
-    while(enter=='y'||enter=='Y')
-    {
-        char room_no[4];
-        printf("\n\t\tEnter the Room Number => ");
-        fflush(stdin);
-        gets(room_no);
-        fflush(stdin);
-        rewind(fp);
-        exist=0;
-        while(fread(&guest,sizeof(guest),1,fp)==1)
-        {
-            if(strcmp(room_no,guest.room_no)==0)
-            {
-                printf("\n\t\tAlready Exists\n");
-                exist=1;
-            }
-        }
-
-        if(exist==0)
-        {
-            system("cls");
-            strcpy(guest.room_no,room_no);
-            printf("\n\t\tEnter the Name: ");
-            fflush(stdin);
-            gets(guest.name);
-            printf("\n\t\tEnter the Address: ");
-            fflush(stdin);
-            gets(guest.address);
-            printf("\n\t\tEnter the Phone No. : ");
-            fflush(stdin);
-            gets(guest.phone_no);
-            printf("\n\t\tEnter the Nationality: ");
-            fflush(stdin);
-            gets(guest.nationality);
-            printf("\n\t\tEnter the Email: ");
-            fflush(stdin);
-            gets(guest.email);
-            printf("\n\t\tEnter the Time Period to Stay : ");
-            fflush(stdin);
-            gets(guest.period);
-            printf("\n\t\tEnter the Arrival Time : ");
-            fflush(stdin);
-            gets(guest.arrival_date);
-            fwrite(&guest, sizeof(guest),1,fp) ;
-            printf("\n\t\tYOUR RECORD IS ADDED...\n");
-        }
-        printf("\n\t\tADD another NOTE .... (Y/N) ");
-        fflush(stdin);
-        enter=getch();
-    }
-    fclose(fp);
-    printf("\n\t\tEnter any KEY to Exit");
-    getch();
-
-}
-
 int password()
 {
     char u_pass[15]={0};        // User Password
@@ -231,6 +136,134 @@ int password()
     printf("YOU ARE NOT ALLOWED TO ENTER");
     getch();
     return -1;
+}
+
+void book()
+{
+    system("cls");
+    printf("\n\n\t\t\t****************************************\n");
+    printf("\t\t\t* WELCOME TO ADD CUSTOMER DETAILS MENU *");
+    printf("\n\t\t\t****************************************\n\n");
+
+    struct customer_info guest;
+    char enter='Y';
+    int exist;
+
+    FILE *fp;
+    fp=fopen("book.txt","a+");
+    if(fp==NULL)
+    {
+        fp=fopen("book.txt","w+");
+        if(fp==NULL)
+        {
+            printf("[SYSTEM ERROR -_-]");
+            printf("\nEnter any KEY to exit");
+            getch();
+            return;
+        }
+        fclose(fp);
+    }
+    while(enter=='y'||enter=='Y')
+    {
+        char room_no[4];
+        printf("\n\t\tEnter the Room Number => ");
+        fflush(stdin);
+        gets(room_no);
+        fflush(stdin);
+        rewind(fp);
+        exist=0;
+        while(fread(&guest,sizeof(guest),1,fp)==1)
+        {
+            if(strcmp(room_no,guest.room_no)==0)
+            {
+                printf("\n\t\tAlready Exists\n");
+                exist=1;
+            }
+        }
+
+        if(exist==0)
+        {
+            system("cls");
+            strcpy(guest.room_no,room_no);
+            printf("\n\t\tEnter the Name: ");
+            fflush(stdin);
+            gets(guest.name);
+            printf("\n\t\tEnter the Address: ");
+            fflush(stdin);
+            gets(guest.address);
+            printf("\n\t\tEnter the Phone No. : ");
+            fflush(stdin);
+            gets(guest.phone_no);
+            printf("\n\t\tEnter the Nationality: ");
+            fflush(stdin);
+            gets(guest.nationality);
+            printf("\n\t\tEnter the Email: ");
+            fflush(stdin);
+            gets(guest.email);
+            printf("\n\t\tEnter the Time Period to Stay : ");
+            fflush(stdin);
+            gets(guest.period);
+            printf("\n\t\tEnter the Arrival Time : ");
+            fflush(stdin);
+            gets(guest.arrival_date);
+            fwrite(&guest, sizeof(guest),1,fp) ;
+            printf("\n\t\tYOUR RECORD IS ADDED...\n");
+        }
+        printf("\n\t\tADD another NOTE .... (Y/N) ");
+        fflush(stdin);
+        enter=getch();
+    }
+    fclose(fp);
+    printf("\n\t\tEnter any KEY to Exit");
+    getch();
+
+}
+
+void view()
+{
+    system("cls");
+    if(password()==-1)
+    {
+        return;
+    }
+    system("cls");
+    struct customer_info info;
+
+    printf("\n\n\t\t*******************************\n");
+    printf("\t\t* HERE IS THE VIEWING MENU *");
+    printf("\n\t\t*******************************\n\n");
+
+    FILE *fp;
+    fp=fopen("book.txt","r");
+    if(fp==NULL)
+    {
+        return;
+    }
+    while(fread(&info,sizeof(info),1,fp)==1)
+    {
+        printf("Room Number => %s\n",info.room_no);
+        printf("Name => %s\n",info.name);
+        printf("Address => %s\n",info.address);
+        printf("Phone Number => %s\n",info.phone_no);
+        printf("Nationality => %s\n",info.nationality);
+        printf("Email => %s\n",info.email);
+        printf("Stay Time Period  => %s\n",info.period);
+        printf("Arrival Date  => %s\n",info.arrival_date);
+        printf("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
+    }
+    fclose(fp);
+    getch();
+}
+
+
+
+int edit()
+{
+    return 0;
+}
+int delete()
+{
+    return 0;
 }
 
 void edit_password()

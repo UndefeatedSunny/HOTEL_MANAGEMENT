@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <string.h>
+
 #define ll long long int
+
 
 struct customer_info
 {
@@ -286,6 +288,7 @@ void edit()
     }
 }
 
+
 void delete()
 {
     printf("\n\n\t\t\t*************************\n");
@@ -515,10 +518,124 @@ void admin()
 }
 
 
-int user()
+void price()
 {
-    return 0;
+    int price=0;
+    int days=0;
+    int fixed_price=121;
+    printf("\n\t\t\tEnter the No. of Days you want to Stay ");
+    scanf("%d",&days);
+    price=(fixed_price*days);
+    printf("\n\t\t\tTOTAL AMOUNT FOR %d DAYS ==> %d",days,price);
+    getch();
 }
+
+
+void record()
+{
+    system("cls");
+    printf("\n\n\t\t\t*************************\n");
+    printf("\t\t\t* WELCOME TO RECORD MENU*");
+    printf("\n\t\t\t*************************\n\n");
+    printf("\t\t\tOCCUPATION\tPHONE NO.\n\n");
+    printf("\t\t\tGUARD\t\t9953691354\n\n");
+    printf("\t\t\tGARDNER\t\t7083691354\n\n");
+    printf("\t\t\tMANAGER\t\t7071231354\n\n");
+    printf("\t\t\tMEDICAL\t\t8871231214\n\n");
+    printf("\t\t\tSWEEPER\t\t9953691354\n\n");
+    printf("\t\t\tPOLICE\t\t100\n\n");
+    getch();
+    return;
+}
+
+
+void availability()
+{
+    system("cls");
+    printf("\n\n\t\t\t********************************\n");
+    printf("\t\t\t* WELCOME TO AVAILABILITY MENU *");
+    printf("\n\t\t\t********************************\n\n");
+
+    FILE *fp;
+    char room_no[10];
+    int check=0;
+    struct customer_info avail;
+
+    fp = fopen("book.txt","r");
+    if(fp==NULL)
+    {
+        return;
+    }
+
+    printf("\t\t\tEnter the Room Number of the hotel to be SEARCHED from the database: ");
+    fflush(stdin);
+    gets(room_no);
+    fflush(stdin);
+
+    while(fread(&avail,sizeof(avail),1,fp)==1)
+    {
+        if(strcmp(avail.room_no,room_no)==0)
+        {
+            check=1;
+            break;
+        }
+    }
+    fclose(fp);
+    if(check==0)
+    {
+        printf("\n\n\t\t\t NOT AVAILABLE [-_-]");
+        getch();
+        return;
+    }
+    else
+    {
+        printf("\n\n\t\t\t AVAILABLE");
+        getch();
+        return;
+    }
+}
+
+
+void user()
+{
+    while(1)
+    {
+        system("cls");
+        printf("\n\n\n");
+        printf("\t\t                       ##  ##    #######    #######   ######                   \n           ");
+        printf("                            ##  ##    ##         ##        ##  ##                   \n           ");
+        printf("                            ##  ##    #######    #######   ######                   \n           ");
+        printf("                            ##  ##         ##    ##        ##   ##                  \n           ");
+        printf("                            ######    #######    #######   ##    ###                \n           ");
+        int option;
+
+        printf("\n\n\n\t\t\t\t{ MAIN MENU }\t\t    { OPTIONS }");
+        printf("\n\n\t\t\tSTAY PRICE\t\t\t\t[1]");
+        printf("\n\t\t\tCHECK AVAILABILITY OF ROOMS\t\t[2]");
+        printf("\n\t\t\tEMPLOYEES RECORDS\t\t\t[3]");
+        printf("\n\t\t\tEXIT\t\t\t\t\t[4]");
+        printf("\n\n\t\t\tPlease! Enter the Option: ");
+
+        scanf("%d",&option);
+
+        switch(option)
+        {
+            case 1:
+                price();
+                break;
+            case 2:
+                availability();
+                break;
+            case 3:
+                record();
+                break;
+            case 4:
+                return;
+        }
+        system("cls");
+    }
+}
+
 
 int main()
 {

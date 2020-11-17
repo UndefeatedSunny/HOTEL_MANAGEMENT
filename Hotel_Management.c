@@ -15,7 +15,62 @@ struct customer_info
     char email[15];
     char period[3];
     char arrival_date[10];
+    char members_names[100];
 };
+
+void delete()
+{
+    printf("\n\n\t\t\t*************************\n");
+    printf("\t\t\t* WELCOME TO DELETE MENU*");
+    printf("\n\t\t\t*************************\n\n");
+
+    FILE *fp;
+    FILE *fptemp;
+    char room_no[5];
+    int check=0;
+    struct customer_info removee;
+
+    fp = fopen("book.txt","r");
+    if(fp==NULL)
+    {
+        return;
+    }
+    fptemp = fopen("Temp.txt","w");
+    if(fptemp==NULL)
+    {
+        return;
+    }
+    printf("Enter the Room Number of the hotel to be deleted from the database: \n");
+    fflush(stdin);
+    gets(room_no);
+    fflush(stdin);
+
+    while(fread(&removee,sizeof(removee),1,fp)==1)
+    {
+        if(strcmp(removee.room_no,room_no)==0)
+        {
+            check=1;
+            continue;
+        }
+        else
+        {
+            fwrite(&removee,sizeof(removee),1,fptemp);
+        }
+    }
+    if(check==0)
+    {
+        printf("\n\n Records of Customer in this  Room number is not found!!");
+        getch();
+    }
+    fclose(fp);
+    fclose(fptemp);
+    remove("book.txt");
+    rename("Temp.txt","book.txt");
+    printf("\n\nThe Customer is successfully removed....");
+    getch();
+}
+
+
 
 void admin()
 {
@@ -24,17 +79,17 @@ void admin()
     {
         return;
     }
-    printf("\n\n\n");
-    printf("                            #######    ####      ###     ###   ##    ###     ##          \n");
-    printf("                            ##   ##    ##  ##    ## ## ## ##   ##    ## ##   ##          \n");
-    printf("                            #######    ##   ##   ##  ##   ##   ##    ##  ##  ##          \n");
-    printf("                            ##   ##    ##   ##   ##       ##   ##    ##   ## ##          \n");
-    printf("                            ##   ##    #####     ##       ##   ##    ##     ###          \n");
-    int option;
-
     while(1)
     {
         system("cls");
+        printf("\n\n\n");
+        printf("                            #######    ####      ###     ###   ##    ###     ##          \n");
+        printf("                            ##   ##    ##  ##    ## ## ## ##   ##    ## ##   ##          \n");
+        printf("                            #######    ##   ##   ##  ##   ##   ##    ##  ##  ##          \n");
+        printf("                            ##   ##    ##   ##   ##       ##   ##    ##   ## ##          \n");
+        printf("                            ##   ##    #####     ##       ##   ##    ##     ###          \n");
+        int option;
+
         printf("\n\n\n\t\t\t\t{ MAIN MENU }\t    { OPTIONS }");
         printf("\n\n\t\t\tBOOK A ROOM\t\t\t\t[1]");
         printf("\n\t\t\tVIEW CUSTOMER RECORD\t\t\t[2]");
@@ -65,6 +120,38 @@ void admin()
         system("cls");
     }
 }
+
+
+
+void edit()
+{
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int password()
 {
     char u_pass[15]={0};        // User Password
@@ -206,6 +293,9 @@ void book()
             printf("\n\t\tEnter the Arrival Time : ");
             fflush(stdin);
             gets(guest.arrival_date);
+            printf("Enter all the Members Details (If Any)");
+            fflush(stdin);
+            gets(guest.members_names);
             fwrite(&guest, sizeof(guest),1,fp) ;
             printf("\n\t\tYOUR RECORD IS ADDED...\n");
         }
@@ -249,21 +339,11 @@ void view()
         printf("Email => %s\n",info.email);
         printf("Stay Time Period  => %s\n",info.period);
         printf("Arrival Date  => %s\n",info.arrival_date);
+        printf("Members Details => %s\n",info.members_names);
         printf("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
     }
     fclose(fp);
     getch();
-}
-
-
-
-int edit()
-{
-    return 0;
-}
-int delete()
-{
-    return 0;
 }
 
 void edit_password()

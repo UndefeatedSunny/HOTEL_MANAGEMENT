@@ -4,152 +4,18 @@
 #include <string.h>
 #define ll long long int
 
-
 struct customer_info
 {
-    char room_no[4];
-    char name[15];
+    char room_no[20];
+    char name[30];
     char address[50];
-    char phone_no[11];
+    char phone_no[15];
     char nationality[10];
-    char email[15];
-    char period[3];
-    char arrival_date[10];
+    char email[20];
+    char period[10];
+    char arrival_date[15];
     char members_names[100];
 };
-
-void delete()
-{
-    printf("\n\n\t\t\t*************************\n");
-    printf("\t\t\t* WELCOME TO DELETE MENU*");
-    printf("\n\t\t\t*************************\n\n");
-
-    FILE *fp;
-    FILE *fptemp;
-    char room_no[5];
-    int check=0;
-    struct customer_info removee;
-
-    fp = fopen("book.txt","r");
-    if(fp==NULL)
-    {
-        return;
-    }
-    fptemp = fopen("Temp.txt","w");
-    if(fptemp==NULL)
-    {
-        return;
-    }
-    printf("Enter the Room Number of the hotel to be deleted from the database: \n");
-    fflush(stdin);
-    gets(room_no);
-    fflush(stdin);
-
-    while(fread(&removee,sizeof(removee),1,fp)==1)
-    {
-        if(strcmp(removee.room_no,room_no)==0)
-        {
-            check=1;
-            continue;
-        }
-        else
-        {
-            fwrite(&removee,sizeof(removee),1,fptemp);
-        }
-    }
-    if(check==0)
-    {
-        printf("\n\n Records of Customer in this  Room number is not found!!");
-        getch();
-    }
-    fclose(fp);
-    fclose(fptemp);
-    remove("book.txt");
-    rename("Temp.txt","book.txt");
-    printf("\n\nThe Customer is successfully removed....");
-    getch();
-}
-
-
-
-void admin()
-{
-    system("cls");
-    if(password()==-1)
-    {
-        return;
-    }
-    while(1)
-    {
-        system("cls");
-        printf("\n\n\n");
-        printf("                            #######    ####      ###     ###   ##    ###     ##          \n");
-        printf("                            ##   ##    ##  ##    ## ## ## ##   ##    ## ##   ##          \n");
-        printf("                            #######    ##   ##   ##  ##   ##   ##    ##  ##  ##          \n");
-        printf("                            ##   ##    ##   ##   ##       ##   ##    ##   ## ##          \n");
-        printf("                            ##   ##    #####     ##       ##   ##    ##     ###          \n");
-        int option;
-
-        printf("\n\n\n\t\t\t\t{ MAIN MENU }\t    { OPTIONS }");
-        printf("\n\n\t\t\tBOOK A ROOM\t\t\t\t[1]");
-        printf("\n\t\t\tVIEW CUSTOMER RECORD\t\t\t[2]");
-        printf("\n\t\t\tDELETE CUSTOMER RECORD\t\t\t[3]");
-        printf("\n\t\t\tEDIT CUSTOMER RECORD\t\t\t[4]");
-        printf("\n\t\t\tEXIT\t\t\t\t\t[5]");
-        printf("\n\n\t\t\tPlease! Enter the Option: ");
-
-        scanf("%d",&option);
-
-        switch(option)
-        {
-            case 1:
-                book();
-                break;
-            case 2:
-                view();
-                break;
-            case 3:
-                delete();
-                break;
-            case 4:
-                edit();
-                break;
-            case 5:
-                return;
-        }
-        system("cls");
-    }
-}
-
-
-
-void edit()
-{
-    
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int password()
@@ -225,126 +91,6 @@ int password()
     return -1;
 }
 
-void book()
-{
-    system("cls");
-    printf("\n\n\t\t\t****************************************\n");
-    printf("\t\t\t* WELCOME TO ADD CUSTOMER DETAILS MENU *");
-    printf("\n\t\t\t****************************************\n\n");
-
-    struct customer_info guest;
-    char enter='Y';
-    int exist;
-
-    FILE *fp;
-    fp=fopen("book.txt","a+");
-    if(fp==NULL)
-    {
-        fp=fopen("book.txt","w+");
-        if(fp==NULL)
-        {
-            printf("[SYSTEM ERROR -_-]");
-            printf("\nEnter any KEY to exit");
-            getch();
-            return;
-        }
-        fclose(fp);
-    }
-    while(enter=='y'||enter=='Y')
-    {
-        char room_no[4];
-        printf("\n\t\tEnter the Room Number => ");
-        fflush(stdin);
-        gets(room_no);
-        fflush(stdin);
-        rewind(fp);
-        exist=0;
-        while(fread(&guest,sizeof(guest),1,fp)==1)
-        {
-            if(strcmp(room_no,guest.room_no)==0)
-            {
-                printf("\n\t\tAlready Exists\n");
-                exist=1;
-            }
-        }
-
-        if(exist==0)
-        {
-            system("cls");
-            strcpy(guest.room_no,room_no);
-            printf("\n\t\tEnter the Name: ");
-            fflush(stdin);
-            gets(guest.name);
-            printf("\n\t\tEnter the Address: ");
-            fflush(stdin);
-            gets(guest.address);
-            printf("\n\t\tEnter the Phone No. : ");
-            fflush(stdin);
-            gets(guest.phone_no);
-            printf("\n\t\tEnter the Nationality: ");
-            fflush(stdin);
-            gets(guest.nationality);
-            printf("\n\t\tEnter the Email: ");
-            fflush(stdin);
-            gets(guest.email);
-            printf("\n\t\tEnter the Time Period to Stay : ");
-            fflush(stdin);
-            gets(guest.period);
-            printf("\n\t\tEnter the Arrival Time : ");
-            fflush(stdin);
-            gets(guest.arrival_date);
-            printf("Enter all the Members Details (If Any)");
-            fflush(stdin);
-            gets(guest.members_names);
-            fwrite(&guest, sizeof(guest),1,fp) ;
-            printf("\n\t\tYOUR RECORD IS ADDED...\n");
-        }
-        printf("\n\t\tADD another NOTE .... (Y/N) ");
-        fflush(stdin);
-        enter=getch();
-    }
-    fclose(fp);
-    printf("\n\t\tEnter any KEY to Exit");
-    getch();
-
-}
-
-void view()
-{
-    system("cls");
-    if(password()==-1)
-    {
-        return;
-    }
-    system("cls");
-    struct customer_info info;
-
-    printf("\n\n\t\t*******************************\n");
-    printf("\t\t* HERE IS THE VIEWING MENU *");
-    printf("\n\t\t*******************************\n\n");
-
-    FILE *fp;
-    fp=fopen("book.txt","r");
-    if(fp==NULL)
-    {
-        return;
-    }
-    while(fread(&info,sizeof(info),1,fp)==1)
-    {
-        printf("Room Number => %s\n",info.room_no);
-        printf("Name => %s\n",info.name);
-        printf("Address => %s\n",info.address);
-        printf("Phone Number => %s\n",info.phone_no);
-        printf("Nationality => %s\n",info.nationality);
-        printf("Email => %s\n",info.email);
-        printf("Stay Time Period  => %s\n",info.period);
-        printf("Arrival Date  => %s\n",info.arrival_date);
-        printf("Members Details => %s\n",info.members_names);
-        printf("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
-    }
-    fclose(fp);
-    getch();
-}
 
 void edit_password()
 {
@@ -455,30 +201,345 @@ void edit_password()
     getch();
 }
 
+
+void edit()
+{
+    system("cls");
+    printf("\n\n\t\t\t***********************\n");
+    printf("\t\t\t* WELCOME TO EDIT MENU*");
+    printf("\n\t\t\t***********************\n\n");
+
+    struct customer_info guest;
+
+    FILE *fp;
+    FILE *fptemp;
+
+    fp=fopen("book.txt","r");
+    fptemp=fopen("Temp.txt","w");
+
+    if(fp==NULL)
+    {
+        return;
+    }
+    if(fptemp==NULL)
+    {
+        return;
+    }
+    char room_no[10];
+    int check=0;
+
+	printf("Enter Room number of the customer to edit:\n\n");
+    fflush(stdin);
+	gets(room_no);
+
+    while(fread(&guest,sizeof(guest),1,fp)==1)
+    {
+        if(strcmp(room_no,guest.room_no)==0)
+        {
+            check=1;
+            strcpy(guest.room_no,room_no);
+            printf("\n\t\tEnter the Name: ");
+            fflush(stdin);
+            gets(guest.name);
+            printf("\n\t\tEnter the Address: ");
+            fflush(stdin);
+            gets(guest.address);
+            printf("\n\t\tEnter the Phone No. : ");
+            fflush(stdin);
+            gets(guest.phone_no);
+            printf("\n\t\tEnter the Nationality: ");
+            fflush(stdin);
+            gets(guest.nationality);
+            printf("\n\t\tEnter the Email: ");
+            fflush(stdin);
+            gets(guest.email);
+            printf("\n\t\tEnter the Time Period to Stay : ");
+            fflush(stdin);
+            gets(guest.period);
+            printf("\n\t\tEnter the Arrival Time : ");
+            fflush(stdin);
+            gets(guest.arrival_date);
+            printf("\n\t\tEnter all the Members Details (If Any)");
+            fflush(stdin);
+            gets(guest.members_names);
+            fwrite(&guest, sizeof(guest),1,fptemp);
+            continue;
+        }
+        else
+        {
+            fwrite(&guest, sizeof(guest),1,fptemp);
+        }
+    }
+    fclose(fp);
+    fclose(fptemp);
+    if(check==0)
+    {
+        printf("\n\nTHE RECORD DOESN'T EXIST!!!!");
+        getch();
+    }
+    else
+    {
+        remove("book.txt");
+        rename("Temp.txt","book.txt");
+        printf("\n\n\t\tYOUR RECORD IS SUCCESSFULLY EDITED!!!");
+        getch();
+    }
+}
+
+void delete()
+{
+    printf("\n\n\t\t\t*************************\n");
+    printf("\t\t\t* WELCOME TO DELETE MENU*");
+    printf("\n\t\t\t*************************\n\n");
+
+    FILE *fp;
+    FILE *fptemp;
+    char room_no[10];
+    int check=0;
+    struct customer_info removee;
+
+    fp = fopen("book.txt","r");
+    if(fp==NULL)
+    {
+        return;
+    }
+    fptemp = fopen("Temp.txt","w");
+    if(fptemp==NULL)
+    {
+        return;
+    }
+    printf("Enter the Room Number of the hotel to be deleted from the database: \n");
+    fflush(stdin);
+    gets(room_no);
+    fflush(stdin);
+
+    while(fread(&removee,sizeof(removee),1,fp)==1)
+    {
+        if(strcmp(removee.room_no,room_no)==0)
+        {
+            check=1;
+            continue;
+        }
+        else
+        {
+            fwrite(&removee,sizeof(removee),1,fptemp);
+        }
+    }
+    if(check==0)
+    {
+        fclose(fp);
+        fclose(fptemp);
+        printf("\n\n Records of Customer in this  Room number is not found!!");
+        getch();
+        return;
+    }
+    fclose(fp);
+    fclose(fptemp);
+    remove("book.txt");
+    rename("Temp.txt","book.txt");
+    printf("\n\nThe Customer is successfully removed....");
+    getch();
+}
+
+
+void book()
+{
+    system("cls");
+    printf("\n\n\t\t\t****************************************\n");
+    printf("\t\t\t* WELCOME TO ADD CUSTOMER DETAILS MENU *");
+    printf("\n\t\t\t****************************************\n\n");
+
+    struct customer_info guest;
+    char enter='Y';
+    int exist;
+
+    FILE *fp;
+    fp=fopen("book.txt","a+");
+    if(fp==NULL)
+    {
+        fp=fopen("book.txt","w+");
+        if(fp==NULL)
+        {
+            printf("[SYSTEM ERROR -_-]");
+            printf("\nEnter any KEY to exit");
+            getch();
+            return;
+        }
+        fclose(fp);
+    }
+    while(enter=='y'||enter=='Y')
+    {
+        char room_no[10];
+        printf("\n\t\tEnter the Room Number => ");
+        fflush(stdin);
+        gets(room_no);
+        fflush(stdin);
+        rewind(fp);
+        exist=0;
+        while(fread(&guest,sizeof(guest),1,fp)==1)
+        {
+            if(strcmp(room_no,guest.room_no)==0)
+            {
+                printf("\n\t\tAlready Exists\n");
+                exist=1;
+            }
+        }
+
+        if(exist==0)
+        {
+            system("cls");
+            strcpy(guest.room_no,room_no);
+            printf("\n\t\tEnter the Name: ");
+            fflush(stdin);
+            gets(guest.name);
+            printf("\n\t\tEnter the Address: ");
+            fflush(stdin);
+            gets(guest.address);
+            printf("\n\t\tEnter the Phone No. : ");
+            fflush(stdin);
+            gets(guest.phone_no);
+            printf("\n\t\tEnter the Nationality: ");
+            fflush(stdin);
+            gets(guest.nationality);
+            printf("\n\t\tEnter the Email: ");
+            fflush(stdin);
+            gets(guest.email);
+            printf("\n\t\tEnter the Time Period to Stay : ");
+            fflush(stdin);
+            gets(guest.period);
+            printf("\n\t\tEnter the Arrival Time : ");
+            fflush(stdin);
+            gets(guest.arrival_date);
+            printf("\n\t\tEnter all the Members Details (If Any) : ");
+            fflush(stdin);
+            gets(guest.members_names);
+            fwrite(&guest, sizeof(guest),1,fp);
+            printf("\n\t\tYOUR RECORD IS ADDED...\n");
+        }
+        printf("\n\t\tADD another NOTE .... (Y/N) ");
+        fflush(stdin);
+        enter=getch();
+    }
+    fclose(fp);
+    printf("\n\t\tEnter any KEY to Exit");
+    getch();
+
+}
+
+
+void view()
+{
+    system("cls");
+    if(password()==-1)
+    {
+        return;
+    }
+    system("cls");
+    struct customer_info info;
+
+    printf("\n\n\t\t*******************************\n");
+    printf("\t\t* HERE IS THE VIEWING MENU *");
+    printf("\n\t\t*******************************\n\n");
+
+    FILE *fp;
+    fp=fopen("book.txt","r");
+    if(fp==NULL)
+    {
+        return;
+    }
+    while(fread(&info,sizeof(info),1,fp)==1)
+    {
+        printf("Room Number => %s\n",info.room_no);
+        printf("Name => %s\n",info.name);
+        printf("Address => %s\n",info.address);
+        printf("Phone Number => %s\n",info.phone_no);
+        printf("Nationality => %s\n",info.nationality);
+        printf("Email => %s\n",info.email);
+        printf("Stay Time Period  => %s\n",info.period);
+        printf("Arrival Date  => %s\n",info.arrival_date);
+        printf("Members Details => %s\n",info.members_names);
+        printf("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
+    }
+    fclose(fp);
+    getch();
+}
+
+
+void admin()
+{
+    system("cls");
+    if(password()==-1)
+    {
+        return;
+    }
+    while(1)
+    {
+        system("cls");
+        printf("\n\n\n");
+        printf("                            #######    ####      ###     ###   ##    ###     ##          \n");
+        printf("                            ##   ##    ##  ##    ## ## ## ##   ##    ## ##   ##          \n");
+        printf("                            #######    ##   ##   ##  ##   ##   ##    ##  ##  ##          \n");
+        printf("                            ##   ##    ##   ##   ##       ##   ##    ##   ## ##          \n");
+        printf("                            ##   ##    #####     ##       ##   ##    ##     ###          \n");
+        int option;
+
+        printf("\n\n\n\t\t\t\t{ MAIN MENU }\t    { OPTIONS }");
+        printf("\n\n\t\t\tBOOK A ROOM\t\t\t\t[1]");
+        printf("\n\t\t\tVIEW CUSTOMER RECORD\t\t\t[2]");
+        printf("\n\t\t\tDELETE CUSTOMER RECORD\t\t\t[3]");
+        printf("\n\t\t\tEDIT CUSTOMER RECORD\t\t\t[4]");
+        printf("\n\t\t\tEXIT\t\t\t\t\t[5]");
+        printf("\n\n\t\t\tPlease! Enter the Option: ");
+
+        scanf("%d",&option);
+
+        switch(option)
+        {
+            case 1:
+                book();
+                break;
+            case 2:
+                view();
+                break;
+            case 3:
+                delete();
+                break;
+            case 4:
+                edit();
+                break;
+            case 5:
+                return;
+        }
+        system("cls");
+    }
+}
+
+
 int user()
 {
     return 0;
 }
+
 int main()
 {
-    system("COLOR 0A");
-    int option;
-    printf("\n\n\n");
-    printf("\t\t                       ##  ##    #######    #########    ########    ## \n           ");
-    printf("                            ##  ##    ##   ##       ##        ##          ## \n           ");
-    printf("                            ######    ##   ##       ##        ########    ## \n           ");
-    printf("                            ##  ##    ##   ##       ##        ##          ## \n           ");
-    printf("                            ##  ##    #######       ##        ########    ###### \n       ");
-
-    printf("\n\n\n");
-    printf("                            ###     ###    #######    ####    ##   #######    #######     ######    ###     ###   ######   ####    ##   #########      \n");
-    printf("                            ## ## ## ##    ##   ##    ## ##   ##   ##   ##    ##          ##        ## ## ## ##   ##       ## ##   ##      ##          \n");
-    printf("                            ##  ##   ##    #######    ##  ##  ##   #######    ##  ###     ######    ##  ##   ##   ######   ##  ##  ##      ##          \n");
-    printf("                            ##       ##    ##   ##    ##   ## ##   ##   ##    ##   ##     ##        ##       ##   ##       ##   ## ##      ##          \n");
-    printf("                            ##       ##    ##   ##    ##    ####   ##   ##    #######     ######    ##       ##   ######   ##    ####      ##          \n");
-
     while(1)
     {
+        system("COLOR 0A");
+        int option;
+        printf("\n\n\n");
+        printf("\t\t                       ##  ##    #######    #########    ########    ## \n           ");
+        printf("                            ##  ##    ##   ##       ##        ##          ## \n           ");
+        printf("                            ######    ##   ##       ##        ########    ## \n           ");
+        printf("                            ##  ##    ##   ##       ##        ##          ## \n           ");
+        printf("                            ##  ##    #######       ##        ########    ###### \n       ");
+
+        printf("\n\n\n");
+        printf("                            ###     ###    #######    ####    ##   #######    #######     ######    ###     ###   ######   ####    ##   #########      \n");
+        printf("                            ## ## ## ##    ##   ##    ## ##   ##   ##   ##    ##          ##        ## ## ## ##   ##       ## ##   ##      ##          \n");
+        printf("                            ##  ##   ##    #######    ##  ##  ##   #######    ##  ###     ######    ##  ##   ##   ######   ##  ##  ##      ##          \n");
+        printf("                            ##       ##    ##   ##    ##   ## ##   ##   ##    ##   ##     ##        ##       ##   ##       ##   ## ##      ##          \n");
+        printf("                            ##       ##    ##   ##    ##    ####   ##   ##    #######     ######    ##       ##   ######   ##    ####      ##          \n");
+
         printf("\n\n\n\t\t\t\t{ MAIN MENU }\t    { OPTIONS }");
         printf("\n\n\t\t\tADMIN\t\t\t[1]");
         printf("\n\t\t\tUSER\t\t\t[2]");
@@ -509,3 +570,4 @@ int main()
     }
     return 0;
 }
+

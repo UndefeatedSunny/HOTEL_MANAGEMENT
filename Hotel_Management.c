@@ -498,8 +498,50 @@ void message()
         printf("\t\tPROBLEM => %s\n",msg.details);
         printf("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
     }
-    getch();
+    rewind(fp);
+    printf("\n\t\tDo you want to Delete any Entry\n\n\t\tPRESS 1 for YES\n\n\t\tPRESS any other NO. for NO\n\n\t\t");
+    int option;
+    scanf("%d",&option);
+
+    if(option==1)
+    {
+        printf("\n\t\tEnter the no of Entry you want to DELETE\n\n\t\t");
+        int entry;
+        scanf("%d",&entry);
+
+        struct request_user del;
+
+        FILE *fptemp;
+        fptemp = fopen("Temp.txt","w+");
+        if(fptemp==NULL)
+        {
+            return;
+        }
+        int count=0;
+        while(fread(&del,sizeof(del),1,fp)==1)
+        {
+            count++;
+            if(entry==count)
+            {
+                continue;
+            }
+            else
+            {
+                fwrite(&del,sizeof(del),1,fptemp);
+            }
+        }
+        fclose(fp);
+        fclose(fptemp);
+        remove("REQUEST.txt");
+        rename("Temp.txt","REQUEST.txt");
+        printf("\n\n\t\t\tThe ENTRY is successfully DELETED....");
+    }
+    else{
+        fclose(fp);
+        return;
+    }
     fclose(fp);
+    getch();
 }
 
 void admin()

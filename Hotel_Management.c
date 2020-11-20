@@ -687,6 +687,36 @@ void room_change()
     printf("\t\t\tEnter the OLD Room No.\n\t\t\t");
     fflush(stdin);
     gets(room_o);
+
+    FILE *fc;
+    char room_no[10];
+    int c=0;
+    struct customer_info check1;
+
+    fc = fopen("book.txt","r");
+    if(fc==NULL)
+    {
+        return;
+    }
+
+    while(fread(&check1,sizeof(check1),1,fc)==1)
+    {
+        if(strcmp(room_no,check1.room_no)==0 && (strlen(room_no)==strlen(check1.room_no)))
+        {
+            c=1;
+            break;
+        }
+    }
+    fclose(fc);
+
+    if(c==1)
+    {
+        printf("\n\n\t\tWrong ROOM NO. entered, Please Verify That");
+        getch();
+        return;
+    }
+
+
     char room_n[10];
     printf("\t\t\tEnter the Room No. to Change ");
     fflush(stdin);

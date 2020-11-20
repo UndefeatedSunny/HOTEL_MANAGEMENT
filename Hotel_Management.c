@@ -472,7 +472,35 @@ void view()
     fclose(fp);
     getch();
 }
+void message()
+{
+    system("cls");
+    printf("\n\n\t\t*******************************\n");
+    printf("\t\t* HERE IS THE MESSAGE MENU *");
+    printf("\n\t\t*******************************\n\n");
 
+    FILE *fp;
+    fp=fopen("REQUEST.txt","r+");
+
+    struct request_user msg;
+
+    if(fp==NULL)
+    {
+        printf("\n\n\t\t\tNO MESSAGES YET");
+        getch();
+        return;
+    }
+
+    while(fread(&msg,sizeof(msg),1,fp)==1)
+    {
+        printf("\t\tOLD ROOM NO. => %s\n\n",msg.room_old);
+        printf("\t\tNEW ROOM NO. WANTED=> %s\n\n",msg.room_new);
+        printf("\t\tPROBLEM => %s\n",msg.details);
+        printf("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
+    }
+    getch();
+    fclose(fp);
+}
 
 void admin()
 {
@@ -497,7 +525,8 @@ void admin()
         printf("\n\t\t\tVIEW CUSTOMER RECORD\t\t\t[2]");
         printf("\n\t\t\tDELETE CUSTOMER RECORD\t\t\t[3]");
         printf("\n\t\t\tEDIT CUSTOMER RECORD\t\t\t[4]");
-        printf("\n\t\t\tEXIT\t\t\t\t\t[5]");
+        printf("\n\t\t\tCUSTOMER REQUESTS\t\t\t[5]");
+        printf("\n\t\t\tEXIT\t\t\t\t\t[6]");
         printf("\n\n\t\t\tPlease! Enter the Option: ");
 
         scanf("%d",&option);
@@ -517,6 +546,9 @@ void admin()
                 edit();
                 break;
             case 5:
+                message();
+                break;
+            case 6:
                 return;
         }
         system("cls");

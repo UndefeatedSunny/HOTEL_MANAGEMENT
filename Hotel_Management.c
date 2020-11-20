@@ -551,6 +551,17 @@ void message()
     getch();
 }
 
+
+
+int review()
+{
+    return 0;
+}
+
+
+
+
+
 void admin()
 {
     system("cls");
@@ -574,8 +585,9 @@ void admin()
         printf("\n\t\t\tVIEW CUSTOMER RECORD\t\t\t[2]");
         printf("\n\t\t\tDELETE CUSTOMER RECORD\t\t\t[3]");
         printf("\n\t\t\tEDIT CUSTOMER RECORD\t\t\t[4]");
-        printf("\n\t\t\tCUSTOMER REQUESTS\t\t\t[5]");
-        printf("\n\t\t\tEXIT\t\t\t\t\t[6]");
+        printf("\n\t\t\tGUESTS REQUESTS\t\t\t\t[5]");
+        printf("\n\t\t\tGUESTS SUGGESTIONS\t\t\t[6]");
+        printf("\n\t\t\tEXIT\t\t\t\t\t[7]");
         printf("\n\n\t\t\tPlease! Enter the Option: ");
 
         scanf("%d",&option);
@@ -598,6 +610,9 @@ void admin()
                 message();
                 break;
             case 6:
+                review();
+                break;
+            case 7:
                 return;
         }
         system("cls");

@@ -26,6 +26,13 @@ struct request_user
     char room_old[10];
 };
 
+struct suggestion
+{
+    char room_no[10];
+    char suggest[100];
+};
+
+
 int password()
 {
     char u_pass[15]={0};        // User Password
@@ -689,7 +696,6 @@ void room_change()
     gets(room_o);
 
     FILE *fc;
-    char room_no[10];
     int c=0;
     struct customer_info check1;
 
@@ -701,7 +707,7 @@ void room_change()
 
     while(fread(&check1,sizeof(check1),1,fc)==1)
     {
-        if(strcmp(room_no,check1.room_no)==0 && (strlen(room_no)==strlen(check1.room_no)))
+        if(strcmp(room_o,check1.room_no)==0 && (strlen(room_o)==strlen(check1.room_no)))
         {
             c=1;
             break;
@@ -709,16 +715,16 @@ void room_change()
     }
     fclose(fc);
 
-    if(c==1)
+    if(c==0)
     {
-        printf("\n\n\t\tWrong ROOM NO. entered, Please Verify That");
+        printf("\n\n\t\t\tWrong ROOM NO. entered, Please Verify That");
         getch();
         return;
     }
 
 
     char room_n[10];
-    printf("\t\t\tEnter the Room No. to Change ");
+    printf("\t\t\tEnter the Room No. from which you want to exchange ");
     fflush(stdin);
     gets(room_n);
     fflush(stdin);
@@ -786,14 +792,80 @@ void room_change()
     }
 }
 
-int suggestion()
+void suggests()
 {
+    system("cls");
+    printf("\n\n\t\t\t******************************\n");
+    printf("\t\t\t* WELCOME TO SUGGESTION MENU *");
+    printf("\n\t\t\t******************************\n\n");
 
-    return 0;
+    char room[10];
+    printf("\t\t\tEnter the Room No.\n\t\t\t");
+    fflush(stdin);
+    gets(room);
+
+    FILE *fc;
+    int c=0;
+    struct customer_info check1;
+
+    fc = fopen("book.txt","r");
+    if(fc==NULL)
+    {
+        return;
+    }
+
+    while(fread(&check1,sizeof(check1),1,fc)==1)
+    {
+        if(strcmp(room,check1.room_no)==0 && (strlen(room)==strlen(check1.room_no)))
+        {
+            c=1;
+            break;
+        }
+    }
+    fclose(fc);
+
+    if(c==0)
+    {
+        printf("\n\n\t\t\tWrong ROOM NO. entered, Please Verify That");
+        getch();
+        return;
+    }
+
+    struct suggestion s;
+
+
+    FILE *fp;
+
+    fp = fopen("SUGGEST.txt","a+");
+    if(fp==NULL)
+    {
+        printf("a+");
+
+        fp = fopen("REQUEST.txt","w+");
+        {
+            if(fp==NULL)
+            {
+                printf("[SYSTEM ERROR -_-]");
+                printf("\nEnter any KEY to exit");
+                getch();
+                return;
+            }
+            fclose(fp);
+        }
+    }
+    strcpy(s.room_no,room);
+
+    printf("\n\n\t\t\tPlease Type the Suggestion Ma'am/Sir \n\n\t\t\t");
+    fflush(stdin);
+    gets(s.suggest);
+
+    fwrite(&s,sizeof(s),1,fp);
+
+    printf("\n\n\t\t\tTHANK YOU FOR SUGGESTION (-_-) ....");
+    getch();
+
+    fclose(fp);
 }
-
-
-
 
 void request()
 {
@@ -815,7 +887,7 @@ void request()
                 room_change();
                 break;
             case 2:
-                suggestion();
+                suggests();
                 break;
             case 3:
                 return;
@@ -919,5 +991,3 @@ int main()
     }
     return 0;
 }
-
-

@@ -19,6 +19,12 @@ struct customer_info
     char members_names[100];
 };
 
+struct request_user
+{
+    char details[100];
+    char room_new[10];
+    char room_old[10];
+};
 
 int password()
 {
@@ -574,7 +580,7 @@ void availability()
 
     while(fread(&avail,sizeof(avail),1,fp)==1)
     {
-        if(strcmp(avail.room_no,room_no)==0)
+        if(strcmp(room_no,avail.room_no)==0 && (strlen(room_no)==strlen(avail.room_no)))
         {
             check=1;
             break;
@@ -583,18 +589,136 @@ void availability()
     fclose(fp);
     if(check==0)
     {
-        printf("\n\n\t\t\t NOT AVAILABLE [-_-]");
+        printf("\n\n\t\t\t AVAILABLE");
         getch();
         return;
     }
     else
     {
-        printf("\n\n\t\t\t AVAILABLE");
+        printf("\n\n\t\t\t NOT AVAILABLE [-_-]");
         getch();
         return;
     }
 }
 
+
+void room_change()
+{
+    system("cls");
+    printf("\n\n\t\t\t***************************\n");
+    printf("\t\t\t* WELCOME TO REQUEST MENU *");
+    printf("\n\t\t\t***************************\n\n");
+
+    char room_o[10];
+    printf("\t\t\tEnter the OLD Room No.\n\t\t\t");
+    fflush(stdin);
+    gets(room_o);
+    char room_n[10];
+    printf("\t\t\tEnter the Room No. to Change ");
+    fflush(stdin);
+    gets(room_n);
+    fflush(stdin);
+    printf("\n\t\t\tChecking the Availability ........");
+
+
+    FILE *fp;
+    struct customer_info req;
+
+    int check = 0;
+    fp = fopen("book.txt","r");
+
+    if(fp==NULL)
+    {
+        return;
+    }
+
+    while(fread(&req,sizeof(req),1,fp))
+    {
+        if(strcmp(room_n,req.room_no)==0)
+        {
+            check=1;
+            break;
+        }
+    }
+    fclose(fp);
+
+    if(check==0)
+    {
+        FILE *fr;
+        struct request_user input;
+
+        printf("\n\n\t\t\tYes Sir, Room is Available");
+        fr = fopen("REQUEST.txt","a+");
+        if(fr==NULL)
+        {
+            printf("a+");
+            fr = fopen("REQUEST.txt","w+");
+            {
+                if(fr==NULL)
+                {
+                    printf("[SYSTEM ERROR -_-]");
+                    printf("\nEnter any KEY to exit");
+                    getch();
+                    return;
+                }
+            }
+            fclose(fr);
+        }
+        strcpy(input.room_new,room_n);
+        strcpy(input.room_old,room_o);
+        printf("\n\n\t\t\tPlease Enter the Problem why you want to Change Room \n\n\t\t\t");
+        fflush(stdin);
+        gets(input.details);
+        fwrite(&input,sizeof(input),1,fr);
+        printf("\n\n\t\t\tRequest Placed Successfully ....");
+        fclose(fr);
+        getch();
+    }
+    else
+    {
+        printf("\n\n\t\t\tNo Sir, Room is not Available");
+        getch();
+        return;
+    }
+}
+
+int suggestion()
+{
+
+    return 0;
+}
+
+
+
+
+void request()
+{
+    while(1)
+    {
+        system("cls");
+        printf("\n\n\n\t\t\t\t{ MAIN MENU }\t\t    { OPTIONS }");
+        printf("\n\n\t\t\tREQUEST FOR ROOM CHANGE\t\t\t[1]");
+        printf("\n\t\t\tSUGGESTIONS \t\t\t\t[2]");
+        printf("\n\t\t\tEXIT\t\t\t\t\t[3]");
+
+        int option;
+        printf("\n\n\t\t\tPlease! Enter the Option: ");
+        scanf("%d",&option);
+
+        switch(option)
+        {
+            case 1:
+                room_change();
+                break;
+            case 2:
+                suggestion();
+                break;
+            case 3:
+                return;
+        }
+        system("cls");
+    }
+}
 
 void user()
 {
@@ -611,9 +735,10 @@ void user()
 
         printf("\n\n\n\t\t\t\t{ MAIN MENU }\t\t    { OPTIONS }");
         printf("\n\n\t\t\tSTAY PRICE\t\t\t\t[1]");
-        printf("\n\t\t\tCHECK AVAILABILITY OF ROOMS\t\t[2]");
+        printf("\n\t\t\tCHECK AVAILABILITY OF ROOM \t\t[2]");
         printf("\n\t\t\tEMPLOYEES RECORDS\t\t\t[3]");
-        printf("\n\t\t\tEXIT\t\t\t\t\t[4]");
+        printf("\n\t\t\tREQUEST OR SUGGESTIONS\t\t\t[4]");
+        printf("\n\t\t\tEXIT\t\t\t\t\t[5]");
         printf("\n\n\t\t\tPlease! Enter the Option: ");
 
         scanf("%d",&option);
@@ -630,6 +755,9 @@ void user()
                 record();
                 break;
             case 4:
+                request();
+                break;
+            case 5:
                 return;
         }
         system("cls");
@@ -687,4 +815,3 @@ int main()
     }
     return 0;
 }
-

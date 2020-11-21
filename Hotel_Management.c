@@ -29,6 +29,7 @@ struct request_user
 struct suggestion
 {
     char room_no[10];
+    char date[15];
     char suggest[100];
 };
 
@@ -710,6 +711,11 @@ void room_change()
     fflush(stdin);
     gets(room_o);
 
+    char user_name[30];
+    printf("\t\t\tPlease Enter your Name for Verification Purpose \n\t\t\t");
+    fflush(stdin);
+    gets(user_name);
+
     FILE *fc;
     int c=0;
     struct customer_info check1;
@@ -720,9 +726,9 @@ void room_change()
         return;
     }
 
-    while(fread(&check1,sizeof(check1),1,fc)==1)
+    while(fread(&check1,sizeof(check1),1,fc)==1) // Security Purpose Only.
     {
-        if(strcmp(room_o,check1.room_no)==0 && (strlen(room_o)==strlen(check1.room_no)))
+        if(strcmp(room_o,check1.room_no)==0 && (strlen(room_o)==strlen(check1.room_no)) && (strcmp(check1.name,user_name))==0 && (strlen(user_name)==strlen(check1.name)))
         {
             c=1;
             break;
@@ -819,6 +825,12 @@ void suggests()
     fflush(stdin);
     gets(room);
 
+    char user_name[30];
+    printf("\t\t\tPlease Enter your Name for Verification Purpose \n\t\t\t");
+    fflush(stdin);
+    gets(user_name);
+
+
     FILE *fc;
     int c=0;
     struct customer_info check1;
@@ -831,7 +843,7 @@ void suggests()
 
     while(fread(&check1,sizeof(check1),1,fc)==1)
     {
-        if(strcmp(room,check1.room_no)==0 && (strlen(room)==strlen(check1.room_no)))
+        if(strcmp(room,check1.room_no)==0 && (strlen(room)==strlen(check1.room_no) && (strcmp(check1.name,user_name))==0 && (strlen(user_name)==strlen(check1.name))))
         {
             c=1;
             break;

@@ -272,7 +272,7 @@ void edit()
             printf("\n\t\tEnter the Time Period to Stay : ");
             fflush(stdin);
             gets(guest.period);
-            printf("\n\t\tEnter the Arrival Time : ");
+            printf("\n\t\tEnter the Arrival Date : ");
             fflush(stdin);
             gets(guest.arrival_date);
             printf("\n\t\tEnter all the Members Details (If Any)");
@@ -433,7 +433,7 @@ void book()
             fwrite(&guest, sizeof(guest),1,fp);
             printf("\n\t\tYOUR RECORD IS ADDED...\n");
         }
-        printf("\n\t\tADD another NOTE .... (Y/N) ");
+        printf("\n\t\tADD another ROOM .... (Y/N) ");
         fflush(stdin);
         enter=getch();
     }
@@ -717,7 +717,6 @@ void record()
     printf("\t\t\tMANAGER\t\t7071231354\n\n");
     printf("\t\t\tMEDICAL\t\t8871231214\n\n");
     printf("\t\t\tSWEEPER\t\t9953691354\n\n");
-    printf("\t\t\tPOLICE\t\t100\n\n");
     getch();
     return;
 }

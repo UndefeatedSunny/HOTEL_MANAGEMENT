@@ -507,11 +507,11 @@ void message()
         printf("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
     }
     rewind(fp);
-    printf("\n\t\tDo you want to Delete any Entry\n\n\t\tPRESS 1 for YES\n\n\t\tPRESS any other NO. for NO\n\n\t\t");
-    int option;
-    scanf("%d",&option);
+    printf("\n\t\tDo you want to Delete any Entry\n\n\t\tPRESS 1 for YES\n\n\t\tPRESS 2 for NO\n\n\t\tPRESS any KEY For ACCEPTING USER Request. \n\n\t\t");
+    char option;
+    scanf("%c",&option);
 
-    if(option==1)
+    if(option=='1')
     {
         printf("\n\t\tEnter the no of Entry you want to DELETE\n\n\t\t");
         int entry;
@@ -544,9 +544,62 @@ void message()
         rename("Temp.txt","REQUEST.txt");
         printf("\n\n\t\t\tThe ENTRY is successfully DELETED....");
     }
-    else{
+    else if(option=='2')
+    {
         fclose(fp);
         return;
+    }
+    else
+    {
+        getch();
+        int approv;
+        printf("\n\n\t\t\tEnter the Qwery No. which you want to APPROVED => ");
+        scanf("%d",&approv);
+
+        struct customer_info info;
+        struct request_user req;
+        int c=0;
+
+        FILE *fp1;
+        fp1=fopen("REQUEST.txt","r+");
+        if(fp1==NULL)
+        {
+            return;
+        }
+        FILE *fp2;
+        fp2 = fopen("book.txt","r");
+        if(fp2==NULL)
+        {
+            return;
+        }
+        FILE *fptemp;
+        fptemp = fopen("Temp.txt","w");
+        if(fptemp==NULL)
+        {
+            return;
+        }
+
+        while(fread(&req,sizeof(req),1,fp1)==1)
+        {
+            c++;
+            fread(&info,sizeof(info),1,fp2);
+            if(approv==c)
+            {
+                strcpy(info.room_no , req.room_new);
+                fwrite(&info,sizeof(info),1,fptemp);
+            }
+            else
+            {
+                fwrite(&info,sizeof(info),1,fptemp);
+            }
+        }
+        fclose(fp1);
+        fclose(fp2);
+        fclose(fptemp);
+        remove("book.txt");
+        rename("Temp.txt","book.txt");
+        printf("\n\n\t\t\tDETAILS UPDATED....");
+        getch();
     }
     fclose(fp);
     getch();
@@ -554,14 +607,32 @@ void message()
 
 
 
-int review()
+void review()
 {
-    return 0;
+    system("cls");
+    printf("\n\n\t\t**********************************\n");
+    printf("\t\t* HERE IS THE SUGGESTION MENU *");
+    printf("\n\t\t**********************************\n\n");
+
+    FILE *fp;
+    fp = fopen("SUGGEST.txt","r+");
+
+    if(fp==NULL)
+    {
+        return;
+    }
+
+    struct suggestion print;
+
+    while(fread(&print,sizeof(print),1,fp)==1)
+    {
+        printf("\t\t\tROOM NO    => %s\n\n",print.room_no);
+        printf("\t\t\tDATE       => %s\n\n",print.date);
+        printf("\t\t\tSUGGESTION => %s\n",print.room_no);
+        printf("\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
+    }
+    getch();
 }
-
-
-
-
 
 void admin()
 {
@@ -882,6 +953,9 @@ void suggests()
     }
     strcpy(s.room_no,room);
 
+    printf("\n\n\t\t\tPlease! Enter the DATE\n\n\t\t\t");
+    fflush(stdin);
+    gets(s.date);
     printf("\n\n\t\t\tPlease Type the Suggestion Ma'am/Sir \n\n\t\t\t");
     fflush(stdin);
     gets(s.suggest);

@@ -5,6 +5,7 @@
 
 #define ll long long int
 
+                    // STRUCTURE
 
 struct customer_info
 {
@@ -19,12 +20,14 @@ struct customer_info
     char members_names[100];
 };
 
+
 struct request_user
 {
     char details[100];
     char room_new[10];
     char room_old[10];
 };
+
 
 struct suggestion
 {
@@ -34,6 +37,8 @@ struct suggestion
 };
 
 
+
+                        // FUNCTIONS
 int password()
 {
     char u_pass[15]={0};        // User Password
@@ -248,6 +253,14 @@ void edit()
     fflush(stdin);
 	gets(room_no);
 
+    int comp = atoi(room_no);
+    if(comp<0 || comp>100)
+    {
+        printf("\n\t\tROOM DOESN'T EXISTS");
+        getch();
+        return;
+    }
+
     while(fread(&guest,sizeof(guest),1,fp)==1)
     {
         if(strcmp(room_no,guest.room_no)==0)
@@ -330,6 +343,14 @@ void delete()
     gets(room_no);
     fflush(stdin);
 
+    int comp = atoi(room_no);
+    if(comp<0 || comp>100)
+    {
+        printf("\n\t\tROOM DOESN'T EXISTS");
+        getch();
+        return;
+    }
+
     while(fread(&removee,sizeof(removee),1,fp)==1)
     {
         if(strcmp(removee.room_no,room_no)==0)
@@ -386,23 +407,32 @@ void book()
     }
     while(enter=='y'||enter=='Y')
     {
+        exist=1;
         char room_no[10];
         printf("\n\t\tEnter the Room Number => ");
         fflush(stdin);
         gets(room_no);
         fflush(stdin);
+
+        int comp = atoi(room_no);
+        if(comp<0 || comp>100)
+        {
+            printf("\n\t\tROOM DOESN'T EXISTS");
+            getch();
+            return;
+        }
         rewind(fp);
-        exist=0;
         while(fread(&guest,sizeof(guest),1,fp)==1)
         {
             if(strcmp(room_no,guest.room_no)==0)
             {
                 printf("\n\t\tAlready Exists\n");
-                exist=1;
+                exist=0;
+                break;
             }
         }
 
-        if(exist==0)
+        if(exist==1)
         {
             system("cls");
             strcpy(guest.room_no,room_no);
@@ -433,9 +463,12 @@ void book()
             fwrite(&guest, sizeof(guest),1,fp);
             printf("\n\t\tYOUR RECORD IS ADDED...\n");
         }
-        printf("\n\t\tADD another ROOM .... (Y/N) ");
-        fflush(stdin);
-        enter=getch();
+        if(exist==0)
+        {
+            printf("\n\t\tCHECK another ROOM .... (Y/N) ");
+            fflush(stdin);
+            enter=getch();
+        }
     }
     fclose(fp);
     printf("\n\t\tEnter any KEY to Exit");
@@ -606,7 +639,6 @@ void message()
 }
 
 
-
 void review()
 {
     system("cls");
@@ -692,6 +724,7 @@ void admin()
 }
 
 
+
 void price()
 {
     int price=0;
@@ -745,6 +778,14 @@ void availability()
     gets(room_no);
     fflush(stdin);
 
+    int comp = atoi(room_no);
+    if(comp<0 || comp>100)
+    {
+        printf("\n\t\tROOM DOESN'T EXISTS");
+        getch();
+        return;
+    }
+
     while(fread(&avail,sizeof(avail),1,fp)==1)
     {
         if(strcmp(room_no,avail.room_no)==0 && (strlen(room_no)==strlen(avail.room_no)))
@@ -780,6 +821,13 @@ void room_change()
     printf("\t\t\tEnter the OLD Room No.\n\t\t\t");
     fflush(stdin);
     gets(room_o);
+    int comp = atoi(room_o);
+    if(comp<0 || comp>100)
+    {
+        printf("\n\t\tROOM DOESN'T EXISTS");
+        getch();
+        return;
+    }
 
     char user_name[30];
     printf("\t\t\tPlease Enter your Name for Verification Purpose \n\t\t\t");
@@ -818,6 +866,14 @@ void room_change()
     printf("\t\t\tEnter the Room No. from which you want to exchange ");
     fflush(stdin);
     gets(room_n);
+    comp = atoi(room_n);
+    if(comp<0 || comp>100)
+    {
+        printf("\n\t\tROOM DOESN'T EXISTS");
+        getch();
+        return;
+    }
+
     fflush(stdin);
     printf("\n\t\t\tChecking the Availability ........");
 
@@ -894,6 +950,13 @@ void suggests()
     printf("\t\t\tEnter the Room No.\n\t\t\t");
     fflush(stdin);
     gets(room);
+    int comp = atoi(room);
+    if(comp<0 || comp>100)
+    {
+        printf("\n\t\tROOM DOESN'T EXISTS");
+        getch();
+        return;
+    }
 
     char user_name[30];
     printf("\t\t\tPlease Enter your Name for Verification Purpose \n\t\t\t");
@@ -1008,6 +1071,8 @@ void user()
         printf("                            ##  ##         ##    ##        ##   ##                  \n           ");
         printf("                            ######    #######    #######   ##    ###                \n           ");
         int option;
+
+        printf("\n\n\t\t\tNOTE => ROOM EXISTS FROM [1-100] ONLY\n\n");
 
         printf("\n\n\n\t\t\t\t{ MAIN MENU }\t\t    { OPTIONS }");
         printf("\n\n\t\t\tSTAY PRICE\t\t\t\t[1]");

@@ -431,6 +431,7 @@ void book()
                 break;
             }
         }
+        char phone_verif[15];
 
         if(exist==1)
         {
@@ -442,9 +443,25 @@ void book()
             printf("\n\t\tEnter the Address: ");
             fflush(stdin);
             gets(guest.address);
-            printf("\n\t\tEnter the Phone No. : ");
-            fflush(stdin);
-            gets(guest.phone_no);
+
+            while(1)
+            {
+                printf("\n\t\tEnter the Phone No. : ");
+                fflush(stdin);
+                gets(phone_verif);
+                ll plength = atoi(phone_verif);
+
+                if(strlen(phone_verif)==10 && plength>999999999 && plength<=9999999999)
+                {
+                    strcpy(guest.phone_no,phone_verif);
+                    break;
+                }
+                else
+                {
+                    printf("\n\t\tWRONG PHONE NO. ENTERED\n\n\t\tPLEASE TRY AGAIN !!");
+                }
+            }
+
             printf("\n\t\tEnter the Nationality: ");
             fflush(stdin);
             gets(guest.nationality);

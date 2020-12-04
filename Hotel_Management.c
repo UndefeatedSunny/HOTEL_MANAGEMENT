@@ -689,6 +689,32 @@ void review()
     getch();
 }
 
+void stay()
+{
+    system("cls");
+    printf("\n\n\t\t\t*************************\n");
+    printf("\t\t\t* WELCOME TO PRICE CHANGE MENU*");
+    printf("\n\t\t\t*************************\n\n");
+    FILE *fp;
+    int num1;
+
+    fp = fopen("price.txt","w");
+
+    if(fp==NULL)
+    {
+        printf("\nError: Cannot open File (-_-)");
+        return;
+    }
+    printf("\n\n\t\tEnter the NEW Price of Accommodation : ");
+    scanf("%d",&num1);
+
+    putw(num1,fp);                           // Write only Integer Value value
+    fclose(fp);
+
+    printf("\n\n\t\tNEW PRICE APPLIED SUCCESSFULLY\n\n\t\t (-_-)");
+    getch();
+}
+
 void admin()
 {
     system("cls");
@@ -714,7 +740,8 @@ void admin()
         printf("\n\t\t\tEDIT CUSTOMER RECORD\t\t\t[4]");
         printf("\n\t\t\tGUESTS REQUESTS\t\t\t\t[5]");
         printf("\n\t\t\tGUESTS SUGGESTIONS\t\t\t[6]");
-        printf("\n\t\t\tEXIT\t\t\t\t\t[7]");
+        printf("\n\t\t\tCHANGE STAY PRICES\t\t\t[7]");
+        printf("\n\t\t\tEXIT\t\t\t\t\t[8]");
         printf("\n\n\t\t\tPlease! Enter the Option: ");
 
         scanf("%d",&option);
@@ -740,6 +767,9 @@ void admin()
                 review();
                 break;
             case 7:
+                stay();
+                break;
+            case 8:
                 return;
         }
         system("cls");
@@ -752,11 +782,20 @@ void price()
 {
     int price=0;
     int days=0;
-    int fixed_price=121;
+    int total=0;
     printf("\n\t\t\tEnter the No. of Days you want to Stay ");
     scanf("%d",&days);
-    price=(fixed_price*days);
-    printf("\n\t\t\tTOTAL AMOUNT FOR %d DAYS ==> %d",days,price);
+
+    FILE *fp;
+
+    fp = fopen("price.txt","r");
+
+    price = getw(fp);                         // Read only Integer Value value
+
+    fclose(fp);
+
+    total=(price*days);
+    printf("\n\t\t\tTOTAL AMOUNT FOR %d DAYS ==> %d",days,total);
     getch();
 }
 

@@ -486,6 +486,12 @@ void book()
             fflush(stdin);
             enter=getch();
         }
+        else
+        {
+            printf("\n\t\tDO YOU WANT TO ADD ANOTHER ROOM .... (Y/N) ");
+            fflush(stdin);
+            enter=getch();
+        }
     }
     fclose(fp);
     printf("\n\t\tEnter any KEY to Exit");
